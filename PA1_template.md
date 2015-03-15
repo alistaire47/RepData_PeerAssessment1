@@ -1,15 +1,9 @@
----
-title: 'Reproducible Research: Peer Assessment 1'
-output:
-  html_document:
-    keep_md: yes
-  pdf_document:
-    latex_engine: xelatex
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
-```{r 1, comment='Q1'}
+
+```r
 #1.1
 data <- read.csv('activity.csv')
 
@@ -19,32 +13,64 @@ interval <- seq(as.POSIXlt(data$date[1]), by= '5 min', length.out=288)
 ```
 
 ## What is mean total number of steps taken per day?
-```{r 2, comment='Q2'}
+
+```r
 #2.1
 stepsByDay <- tapply(data$steps, data$date, sum, na.rm=TRUE)
 
 #2.2
 hist(stepsByDay)
+```
 
+![](PA1_template_files/figure-html/2-1.png) 
+
+```r
 #2.3
 mean(stepsByDay)
+```
+
+```
+Q2 [1] 9354.23
+```
+
+```r
 median(stepsByDay)
 ```
 
+```
+Q2 [1] 10395
+```
+
 ## What is the average daily activity pattern?
-```{r 3, comment='Q3'}
+
+```r
 #3.1
 plot(interval, stepsByInterval, type='l', ylab='steps')
+```
 
+![](PA1_template_files/figure-html/3-1.png) 
+
+```r
 #3.2
 names(which.max(stepsByInterval))
 ```
 
+```
+Q3 [1] "835"
+```
+
 ## Imputing missing values
-```{r 4, comment='Q4'}
+
+```r
 #4.1
 sum(is.na(data$steps))
+```
 
+```
+Q4 [1] 2304
+```
+
+```r
 #4.2, 4.3
 filledData <- data
 for(i in 1:nrow(filledData)){
@@ -56,13 +82,30 @@ for(i in 1:nrow(filledData)){
 #4.4
 filledStepsByDay <- tapply(filledData$steps, filledData$date, sum)
 hist(filledStepsByDay)
+```
+
+![](PA1_template_files/figure-html/4-1.png) 
+
+```r
 mean(filledStepsByDay)
+```
+
+```
+Q4 [1] 10766.19
+```
+
+```r
 median(filledStepsByDay)
+```
+
+```
+Q4 [1] 10766.19
 ```
 Yes, the mean and median differ from 2.3. Both mean and median with imputed values are higher, especially mean. Imputing the missing values made the distribution more akin to a normal distribution (now median equals mean), moving a lot of days from the left tail to the center of the histogram.
 
 ## Are there differences in activity patterns between weekdays and weekends?
-```{r 5, comment='Q5'}
+
+```r
 #5.1
 for(i in 1:nrow(filledData)){
     day <- weekdays(as.POSIXlt(filledData[i,2]))
@@ -85,3 +128,5 @@ title(main='Weekday vs. Weekend Steps', outer=TRUE)
 mtext(c('time of day', 'steps per 5 min'), side=c(1,2), 
       outer=TRUE, line=2.2, cex=0.8)
 ```
+
+![](PA1_template_files/figure-html/5-1.png) 
