@@ -71,7 +71,13 @@ Q4 [1] 2304
 ```
 
 ```r
-#4.2, 4.3
+#4.2
+```
+I am going to fill in the missing values by replacing `NA` values with the mean steps for that specific interval as calculated in 1.2 above.
+
+
+```r
+#4.3
 filledData <- data
 for(i in 1:nrow(filledData)){
     if(is.na(filledData[i, 1])){
@@ -84,7 +90,7 @@ filledStepsByDay <- tapply(filledData$steps, filledData$date, sum)
 hist(filledStepsByDay)
 ```
 
-![](PA1_template_files/figure-html/4-1.png) 
+![](PA1_template_files/figure-html/4.3-1.png) 
 
 ```r
 mean(filledStepsByDay)
